@@ -1,0 +1,11 @@
+/home/andrea/Desktop/python/C#/first/bin/Debug/netcoreapp2.1/first.deps.json
+/home/andrea/Desktop/python/C#/first/bin/Debug/netcoreapp2.1/first.runtimeconfig.json
+/home/andrea/Desktop/python/C#/first/bin/Debug/netcoreapp2.1/first.runtimeconfig.dev.json
+/home/andrea/Desktop/python/C#/first/bin/Debug/netcoreapp2.1/first.dll
+/home/andrea/Desktop/python/C#/first/bin/Debug/netcoreapp2.1/first.pdb
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.csprojAssemblyReference.cache
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.csproj.CoreCompileInputs.cache
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.AssemblyInfoInputs.cache
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.AssemblyInfo.cs
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.dll
+/home/andrea/Desktop/python/C#/first/obj/Debug/netcoreapp2.1/first.pdb
