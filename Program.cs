@@ -26,12 +26,19 @@ namespace main
                 Console.WriteLine("from: " + t.from + " --> to: " + t.to);
             }*/
 
+            GraphManager gm = new GraphManager( nodes, transactions );
+            Searches search = gm.getSearcher();
+
+
+            
+
             //try breadth first
             //dao.breadthFirst( nodes["aaa"],  nodes );//recursive
             //dao.breadthFirstUsingQueue( nodes["aaa"], nodes );//not recursive
             //dao.deepFirst( nodes["aaa"],  nodes );//recursive
             //dao.deepFirstUsingStack(  nodes["aaa"], nodes  );//not recursive
-            dao.minimumSpanningTree( transactions );
+            //dao.minimumSpanningTree( transactions );
+            dao.directGraphCheckForCycle( nodes, transactions );
             Console.WriteLine("Finished");
             //Console.ReadLine();
         }

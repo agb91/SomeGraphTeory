@@ -11,137 +11,7 @@ namespace dao
 
         private List<String> visited = new List<String>();
         
-        //recoursive first call
-        public void breadthFirst( Node root, Dictionary<String,Node> graph )
-        {
-            visited.Clear();
-            List<Node> roots = new List<Node>();
-            roots.Add(root);
-            visited.Add(root.name);
-
-            breadthFirst( roots, graph );
-        }
-
-        //recoursive
-        public void breadthFirst( List<Node> thisLevel, Dictionary<String,Node> graph )
-        {
-            graph = new Dictionary<string, Node>(graph);//wanna pass by valueeee
-            if( thisLevel.Count == 0 )
-            {
-                return;
-            }
-
-            //print this gen
-            foreach( var n in thisLevel )
-            {
-                Console.WriteLine("Visited:" + n.name);
-                graph.Remove( n.name );
-            }
-
-            //get next gen
-            List<Node> newGen = new List<Node>();
-            foreach ( var n in thisLevel )
-            {
-                foreach( var son in n.exits )
-                {
-                    if( graph.ContainsKey(son.to) && !visited.Contains(son.to)  )
-                    {
-                        newGen.Add( graph[son.to] );
-                    }
-                }
-            }
-            //recoursive
-            breadthFirst( newGen, graph );    
      
-        }
-
-        //recoursive first call
-        public void deepFirst( Node root, Dictionary<String,Node> graph )
-        {
-            visited.Clear();
-            Console.WriteLine("visited: " + root.name);
-            visited.Add(root.name);
-            List<Node> path = new List<Node>();
-            path.Add(root);
-            graph = new Dictionary<string, Node>(graph);//wanna pass by valueeee
-
-            deepFirst( path, graph );
-        }
-    
-        //recoursive
-        public void deepFirst( List<Node> path, Dictionary<String,Node> graph )
-        {
-            int last = path.Count - 1;
-            Node thisNode = path[ last ];
-
-            foreach( Transaction tSon in thisNode.exits )
-            {
-                Node son = graph[tSon.to];
-                if( !path.Contains(son) && !visited.Contains( son.name ))
-                {
-                    Console.WriteLine("visited: " + son.name);
-                    visited.Add(son.name);
-                    List<Node> thisPath = new List<Node>();
-                    thisPath.AddRange( path );
-                    thisPath.Add( son );
-                    deepFirst( thisPath,  graph );
-                }
-            }
-    
-        }
-
-        //not recoursive
-        public void breadthFirstUsingQueue( Node root, Dictionary<String,Node> graph )
-        {
-            visited.Clear();
-            Queue<Node> queue = new Queue<Node>();
-            queue.Enqueue(root);
-
-            while( queue.Count>0 )
-            {
-                Node n = queue.Dequeue();
-                string name = n.name;
-                if( !visited.Contains( name ) )
-                {
-                    Console.WriteLine( name );
-                    visited.Add( name );
-                    foreach( var sonName in n.exits )
-                    {
-                        Node son = graph[sonName.to];
-                        queue.Enqueue(son);
-                    }
-                }
-                
-            }
-
-        }
-
-        //not recoursive
-        public void deepFirstUsingStack( Node root, Dictionary<String,Node> graph )
-        {
-            visited.Clear();
-
-            Stack<Node> stack = new Stack<Node>();
-            stack.Push(root);
-
-            while( stack.Count>0 )
-            {
-                Node n = stack.Pop();
-                string name = n.name;
-                if( !visited.Contains( name ) )
-                {
-                    Console.WriteLine( name );
-                    visited.Add( name );
-                    foreach( var sonName in n.exits )
-                    {
-                        Node son = graph[sonName.to];
-                        stack.Push(son);
-                    }
-                }
-                
-            }
-
-        }
         
         public void minimumSpanningTree( List<Transaction> ts )
         {
@@ -158,6 +28,61 @@ namespace dao
             }
 
         }
+
+        public bool directGraphCheckForCycle( Dictionary<String,Node> nodes
+            , List<Transaction> transaction )
+        {
+            List<String> visited = new List<String>();
+            List<String> recStack = new List<String>();
+
+            foreach(KeyValuePair<string, Node> entry in nodes)
+                if ( !visited.Contains( entry.Key))
+                {
+                    if ( isCyclicUtil(entry.Value, visited, recStack, nodes) )
+                    {
+                        return true;
+                    }
+                } 
+            return false;
+        }
+
+        private List<Node> getChildNodes( Node n, Dictionary<String, Node> nodes )
+        {
+            List<Node> results = new List<Node>();
+            foreach( Transaction node in n.exits )
+            {
+                results.Add( nodes[node.to] );
+            }
+            return results;
+        }
+
+        private bool isCyclicUtil( Node v, List<String>visited, List<String>recStack, 
+        Dictionary<String, Node> nodes)
+        {
+            visited.Add( v.name );
+            recStack.Add(v.name);
+            
+            List<Node> neigs = new List<Node>();
+            neigs = getChildNodes( v, nodes );
+            foreach ( Node neighbour in neigs )
+            {
+                if ( !visited.Contains(neighbour.name) )
+                {
+                    if (isCyclicUtil(neighbour, visited, recStack, nodes) == true )
+                        return true;
+                }
+                else if( recStack.Contains(neighbour.name) )
+                {
+                    return true;
+                }      
+            }
+
+            recStack.Remove(v.name);
+            return false;
+        }
+ 
+        
+
         public List<Transaction> getTransactions()
         {
             List<Transaction> results = new List<Transaction>();
