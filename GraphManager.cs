@@ -6,11 +6,10 @@ using System.Linq;
 
 namespace dao
 {
+    
+    //it is a factory class
     class GraphManager
     {
-
-        private List<String> visited { get; set; } = new List<String>() ;
-        private List<String> recStack { get; set; } = new List<String>() ;
         private Dictionary<String,Node> nodes { get; set; } = new Dictionary<String,Node>() ;
         private List<Transaction> transactions { get; set; } = new List<Transaction>() ;
 
@@ -26,6 +25,11 @@ namespace dao
         public Searches getSearcher()
         {
             return new Searches( nodes, transactions );
+        }
+
+        public Algos getAlgos()
+        {
+            return new Algos( nodes, transactions );
         }
 
     }

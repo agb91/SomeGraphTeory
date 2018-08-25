@@ -28,17 +28,18 @@ namespace main
 
             GraphManager gm = new GraphManager( nodes, transactions );
             Searches search = gm.getSearcher();
+            Algos algos = gm.getAlgos();
 
 
             
 
             //try breadth first
-            //dao.breadthFirst( nodes["aaa"],  nodes );//recursive
-            //dao.breadthFirstUsingQueue( nodes["aaa"], nodes );//not recursive
-            //dao.deepFirst( nodes["aaa"],  nodes );//recursive
-            //dao.deepFirstUsingStack(  nodes["aaa"], nodes  );//not recursive
-            //dao.minimumSpanningTree( transactions );
-            dao.directGraphCheckForCycle( nodes, transactions );
+            //search.breadthFirst( nodes["aaa"],  nodes );//recursive
+            //search.breadthFirstUsingQueue( nodes["aaa"] );//not recursive
+            //search.deepFirst( nodes["aaa"],  nodes );//recursive
+            //search.deepFirstUsingStack(  nodes["aaa"] );//not recursive
+            //algos.minimumSpanningTree( );
+            algos.directGraphCheckForCycle( );
             Console.WriteLine("Finished");
             //Console.ReadLine();
         }

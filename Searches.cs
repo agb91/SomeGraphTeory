@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace dao
 {
+    //this class implements some way to explore the graph
     class Searches
     {
 
