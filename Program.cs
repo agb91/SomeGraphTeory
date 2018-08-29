@@ -17,13 +17,13 @@ namespace main
 
             /*foreach(KeyValuePair<string, Node> entry in nodes)
             {
-                Console.WriteLine( "node found: " + " -> " 
+                Console.WriteLine( "node found: " 
                     + entry.Value.ToString() );
             };*/
 
             /*foreach( var t in transactions )
             {
-                Console.WriteLine("from: " + t.from + " --> to: " + t.to);
+                Console.WriteLine("from: " + t.from + " --> to: " + t.to + "; weight:" + t.weight);
             }*/
 
             GraphManager gm = new GraphManager( nodes, transactions );
@@ -39,7 +39,8 @@ namespace main
             //search.deepFirst( nodes["aaa"],  nodes );//recursive
             //search.deepFirstUsingStack(  nodes["aaa"] );//not recursive
             //algos.minimumSpanningTree( );
-            algos.directGraphCheckForCycle( );
+            //algos.directGraphCheckForCycle( );
+            algos.dijkstra("aaa");
             Console.WriteLine("Finished");
             //Console.ReadLine();
         }

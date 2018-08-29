@@ -8,6 +8,7 @@ namespace graph
         public string name { get; set; } = "defaultName";
         public string group { get; set; } = "defaultGroup";
 
+
         public Node(string name)
         {
             this.name = name;

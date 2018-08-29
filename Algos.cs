@@ -12,7 +12,7 @@ namespace dao
 
         private List<String> visited { get; set; } = new List<String>() ;
         private List<String> recStack { get; set; } = new List<String>() ;
-        private Dictionary<String,Node> nodes { get; set; } = new Dictionary<String,Node>() ;
+               private Dictionary<String,Node> nodes { get; set; } = new Dictionary<String,Node>() ;
         private List<Transaction> transactions { get; set; } = new List<Transaction>() ;
 
         public Algos( Dictionary<String,Node> _nodes,
@@ -35,12 +35,54 @@ namespace dao
                 {
                     linked.Add(t.from);
                     linked.Add(t.to);
-                    Console.WriteLine( "transacion:" + t.ToString() );
+                    Console.WriteLine( "transaction:" + t.ToString() );
                 }
             }
 
         }
 
+        public void dijkstra( string sroot )
+        {
+            Dictionary<String,int> reached = new Dictionary<String,int>();
+            reached[sroot] = 0;
+            Node root = nodes[sroot];
+            List<Node> frontier = new List<Node>();
+            frontier.Add( root );
+
+            while( frontier.Count > 0 )
+            {
+                List<Node> actualFrontier = new List<Node>(frontier); //I wanna copy value
+                foreach( Node node in actualFrontier )
+                {
+                    foreach( Transaction t in node.exits )
+                    {
+                        frontier.Add( nodes[t.to] );
+                        if( reached.Keys.Contains(t.to) )
+                        {
+                            int toReach = t.weight + reached[node.name];
+                            if( reached[t.to] > toReach )
+                            {
+                                reached[t.to] = toReach;
+                            }
+                        }
+                        else{
+                            int toReach = t.weight + reached[node.name];
+                            reached[t.to] = toReach;
+                        }
+                    }
+                    frontier.Remove( node );
+                }
+
+            }
+
+            foreach( KeyValuePair<string, int> entry in reached )
+            {
+                Console.WriteLine("you can reach node: " + entry.Key + " in weight: " + entry.Value );
+            }
+
+
+            
+        }
 
         public bool directGraphCheckForCycle(  )
         {

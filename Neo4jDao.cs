@@ -32,7 +32,7 @@ namespace dao
                     //get all the nodes
                     var transactions = session.WriteTransaction(tx =>
                     {
-                        var r = tx.Run("match (n)-[t]->(a) return n.name,a.name");
+                        var r = tx.Run("match (n)-[t]->(a) return n.name,a.name, t.weight");
                         return r ;
                     });
 
@@ -41,8 +41,10 @@ namespace dao
                         Transaction t = new Transaction();
                         var from = n["n.name"].As<string>();
                         var to = n["a.name"].As<string>();
+                        var weight = n["t.weight"].As<int>();
                         t.from = from;
                         t.to = to;
+                        t.weight = weight;
                         results.Add(t);
                     }
                 }
@@ -68,7 +70,7 @@ namespace dao
                     //get all the nodes
                     var nodes = session.WriteTransaction(tx =>
                     {
-                        var r = tx.Run("match (n)-[t]->(a) return n.name,a.name");
+                        var r = tx.Run("match (n)-[t]->(a) return n.name,a.name, t.weight");
                         return r ;
                     });
 
@@ -82,9 +84,11 @@ namespace dao
                         var name = n["n.name"].As<string>();
                         node.name = name;
                         var to = n["a.name"].As<string>();
+                        var weight = n["t.weight"].As<int>();
                         Transaction t = new Transaction();
                         t.from = name;
                         t.to = to;
+                        t.weight = weight;
                         node.exits.Add( t );
                         if( ! result.ContainsKey(name) )
                         {
