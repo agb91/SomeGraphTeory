@@ -17,11 +17,24 @@ namespace graph
         {    }
 
         public List<Transaction> exits { get; set; } = new List<Transaction>();
+        public List<Transaction> neighbors { get;set; } = new List<Transaction>();
 
         public override string ToString()
         {
             string result = name + "->[";
             foreach ( Transaction t in exits )
+            {
+                    result +=  " " + t.ToString() + "; " ;
+            }
+            result += "]";
+            return result;
+        }
+
+        //will be usefull sooner or later
+        public string ToStringNotOriented()
+        {
+            string result = name + "->[";
+            foreach ( Transaction t in neighbors )
             {
                     result +=  " " + t.ToString() + "; " ;
             }

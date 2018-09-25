@@ -67,8 +67,8 @@ namespace dao
             {
                 using (var session = _driver.Session())
                 {
-                    //get all the nodes
-                    var nodes = session.WriteTransaction(tx =>
+                    //get all the transactions, with source and destination nodes
+                    var transactionBlock = session.WriteTransaction(tx =>
                     {
                         var r = tx.Run("match (n)-[t]->(a) return n.name,a.name, t.weight");
                         return r ;
@@ -76,35 +76,46 @@ namespace dao
 
                    
 
-                    //for each of them set the transactions
-                    foreach (var n in nodes)
+                    // a transaction is a neighbor both for its source and its destination,
+                    // and an exit only for its destination
+                    foreach (var trBlock in transactionBlock)
                     {
-                        var node = new Node();
+                        var nodeS = new Node();
+                        var nodeD = new Node();
                         
-                        var name = n["n.name"].As<string>();
-                        node.name = name;
-                        var to = n["a.name"].As<string>();
-                        var weight = n["t.weight"].As<int>();
+                        var nameS = trBlock["n.name"].As<string>();
+                        nodeS.name = nameS;
+                        var nameD = trBlock["a.name"].As<string>();
+                        nodeD.name = nameD;
+                        var weight = trBlock["t.weight"].As<int>();
                         Transaction t = new Transaction();
-                        t.from = name;
-                        t.to = to;
+                        t.from = nameS;
+                        t.to = nameD;
                         t.weight = weight;
-                        node.exits.Add( t );
-                        if( ! result.ContainsKey(name) )
+                        if( ! result.ContainsKey(nameS) )
                         {
-                            result.Add( name , node);
+                            nodeS.exits.Add( t );
+                            nodeS.neighbors.Add( t );
+                            result.Add( nameS , nodeS);
+                            //Console.WriteLine(" nuovo, nodo: " + nameS + " neigh: " + t);
                         }
                         else
                         {
-                            result[name].exits.Add(t);
+                            result[nameS].exits.Add(t);
+                            result[nameS].neighbors.Add(t);
+                            //Console.WriteLine(" vecchio, nodo: " + nameS + " neigh: " + t);
                         }
-
-                        //add leaves
-                        if( ! result.ContainsKey(to) )
+                        if( ! result.ContainsKey(nameD) )
                         {
-                            result.Add( to , new Node(to));
+                            nodeD.neighbors.Add( t );
+                            result.Add( nameD , nodeD);
+                            //Console.WriteLine(" nuovo dest, nodo: " + nameD + " neigh: " + t);
                         }
-                        
+                        else
+                        {
+                            result[nameD].neighbors.Add(t);
+                            //Console.WriteLine(" vecchio dest, nodo: " + nameD + " neigh: " + t);
+                        }
                     }
                 }
 

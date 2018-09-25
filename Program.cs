@@ -15,17 +15,18 @@ namespace main
             Dictionary<String,Node> nodes = dao.getNodes();
             List<Transaction> transactions = dao.getTransactions();
 
-            /*foreach(KeyValuePair<string, Node> entry in nodes)
+            foreach(KeyValuePair<string, Node> entry in nodes)
             {
                 Console.WriteLine( "node found: " 
-                    + entry.Value.ToString() );
-            };*/
+                    + entry.Value.ToStringNotOriented() );
+            };
 
-            /*foreach( var t in transactions )
+            /* 
+            foreach( var t in transactions )
             {
                 Console.WriteLine("from: " + t.from + " --> to: " + t.to + "; weight:" + t.weight);
-            }*/
-
+            }
+            */
             GraphManager gm = new GraphManager( nodes, transactions );
             Searches search = gm.getSearcher();
             Algos algos = gm.getAlgos();
@@ -38,9 +39,10 @@ namespace main
             //search.breadthFirstUsingQueue( nodes["aaa"] );//not recursive
             //search.deepFirst( nodes["aaa"],  nodes );//recursive
             //search.deepFirstUsingStack(  nodes["aaa"] );//not recursive
+            //search.binarySearchNotOriented( nodes["bbb"] , nodes["eee"] );
             //algos.minimumSpanningTree( );
             //algos.directGraphCheckForCycle( );
-            algos.dijkstra("aaa");
+            //algos.dijkstra("aaa");
             Console.WriteLine("Finished");
             //Console.ReadLine();
         }

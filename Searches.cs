@@ -158,5 +158,11 @@ namespace dao
 
         }
 
+        //binary search
+        public void binarySearchNotOriented( Node r1 , Node r2 )
+        {
+            //todo
+        }
+
     }
 }
